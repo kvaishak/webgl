@@ -45,7 +45,7 @@ function main() {
   var fragmentShader = createShader(
     gl,
     gl.FRAGMENT_SHADER,
-    fragmentShaderSource
+    fragmentShaderSource,
   );
 
   // Link the two shaders into a program
@@ -67,11 +67,11 @@ function main() {
   // ***** code below this line is rendering code. *****
 
   // Sets the background color for the canvas.
-  gl.clearColor(0.75, 0.85, 0.8, 1.0);
-  gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+  gl.clearColor(0.1, 0.85, 0.8, 1.0); // sets the color
+  gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT); // clears the canvas and sets the color
 
   // Tell WebGL how to convert from clip space to pixels
-  // gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
+  gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
 
   // look up where the vertex data needs to go.
   var positionAttributeLocation = gl.getAttribLocation(program, "a_position");
@@ -88,7 +88,7 @@ function main() {
     type,
     normalize,
     stride,
-    offset
+    offset,
   );
 
   // Enables the attribute for use
