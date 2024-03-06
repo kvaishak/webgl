@@ -60,7 +60,9 @@ function main() {
   gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
 
   // Specify the position data and then send it to the GPU
-  var positions = [0, 0.5, -0.5, -0.5, 0.5, -0.5];
+  var positions = [
+    -0.25, -0.43, 0.25, -0.43, 0.0, 0.43, 0.45, -0.43, 0.95, -0.43, 0.75, 0.43,
+  ];
   gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW);
 
   // ***** code above this line is initialization code. *****
@@ -104,6 +106,10 @@ function main() {
   var offset = 0; // How many of the vertex attributes to skip
   var count = 3; // How many of the vertex attributes to use
   gl.drawArrays(primitiveType, offset, count);
+
+  // Draw Array code for another triangle.
+  var secondTriangleOffset = 3;
+  gl.drawArrays(primitiveType, secondTriangleOffset, count);
 }
 
 main();
