@@ -7,7 +7,7 @@
 
   <body>
     <div id="app"></div>
-    <canvas id="game-surface" width="800" height="600">
+    <canvas id="game-surface" width="600" height="600">
       Your browser does not support HTML5
     </canvas>
     <br />
@@ -38,6 +38,19 @@
         // gl_FragColor is a special variable a fragment shader
         // is responsible for setting
         gl_FragColor = vec4(1, 0, 0.5, 1); // return redish-purple
+      }
+    </script>
+
+    <script id="fragment-shader-2d-yellow" type="notjs">
+
+      // fragment shaders don't have a default precision so we need
+      // to pick one. mediump is a good default
+      precision mediump float;
+
+      void main() {
+        // gl_FragColor is a special variable a fragment shader
+        // is responsible for setting
+        gl_FragColor = vec4(1, 1, 0, 1); // return redish-purple
       }
     </script>
     <script src="./index.js"></script>
