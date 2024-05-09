@@ -60,21 +60,6 @@ function main() {
   var program = createProgram(gl, vertexShader, fragmentShader);
   var programYellow = createProgram(gl, vertexShader, fragmentShaderYellow);
 
-  // THE FOLLOWING CODE IS TO FIGURE OUT WHAT DATA THAT WE NEED TO SEND
-  // AND HOW.
-  var positionBuffer1 = gl.createBuffer();
-  gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer1);
-  var positions1 = [-0.85, -0.43, -0.15, -0.43, -0.45, 0.43];
-  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions1), gl.STATIC_DRAW);
-
-  var positionBuffer2 = gl.createBuffer();
-  gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer2);
-  var positions2 = [0.15, -0.43, 0.85, -0.43, 0.55, 0.43];
-  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions2), gl.STATIC_DRAW);
-
-  // ***** code above this line is initialization code. *****
-  // ***** code below this line is rendering code. *****
-
   // Sets the background color for the canvas.
   gl.clearColor(0.1, 0.85, 0.8, 1.0); // sets the color
   gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT); // clears the canvas and sets the color
@@ -86,13 +71,23 @@ function main() {
   // look up where the vertex data needs to go.
   var positionAttributeLocation = gl.getAttribLocation(program, "a_position");
 
+  // Initialization of the buffer for the first Triangle
+  var positionBuffer1 = gl.createBuffer();
   gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer1);
+  var positions1 = [-0.85, -0.43, -0.15, -0.43, -0.45, 0.43];
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions1), gl.STATIC_DRAW);
+
   gl.vertexAttribPointer(positionAttributeLocation, 2, gl.FLOAT, false, 0, 0);
   gl.enableVertexAttribArray(positionAttributeLocation);
   gl.drawArrays(gl.TRIANGLES, 0, 3);
 
-  gl.useProgram(programYellow);
+  // Initialization of the buffer for the second Triangle
+  var positionBuffer2 = gl.createBuffer();
   gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer2);
+  var positions2 = [0.15, -0.43, 0.85, -0.43, 0.55, 0.43];
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions2), gl.STATIC_DRAW);
+
+  gl.useProgram(programYellow);
   gl.vertexAttribPointer(positionAttributeLocation, 2, gl.FLOAT, false, 0, 0);
   gl.enableVertexAttribArray(positionAttributeLocation);
   gl.drawArrays(gl.TRIANGLES, 0, 3);
