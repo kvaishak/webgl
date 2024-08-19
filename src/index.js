@@ -45,7 +45,7 @@ function main() {
   var fragmentShader = createShader(
     gl,
     gl.FRAGMENT_SHADER,
-    fragmentShaderSource,
+    fragmentShaderSource
   );
 
   // Link the two shaders into a program
@@ -60,27 +60,33 @@ function main() {
   gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
 
   // Specify the position data and then send it to the GPU
-  var positions = [0, 0.5, -0.5, -0.5, 0.5, -0.5];
+  var positions = [
+    // X   Y      R  G  B
+    -0.5, 0.5, 1.0, 1.0, 0.0, -0.5, -0.5, 0.7, 0.0, 1.0, 0.5, -0.5, 0.1, 1.0,
+    0.6, 0.5, -0.5, 0.1, 1.0, 0.6, -0.5, 0.5, 1.0, 1.0, 0.0, 0.5, 0.5, 1.0, 0.7,
+    0.0,
+  ];
   gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW);
 
   // ***** code above this line is initialization code. *****
   // ***** code below this line is rendering code. *****
 
   // Sets the background color for the canvas.
-  gl.clearColor(0.1, 0.85, 0.8, 1.0); // sets the color
-  gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT); // clears the canvas and sets the color
+  gl.clearColor(0.75, 0.85, 0.8, 1.0);
+  gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
   // Tell WebGL how to convert from clip space to pixels
   gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
 
   // look up where the vertex data needs to go.
   var positionAttributeLocation = gl.getAttribLocation(program, "a_position");
+  var colorAttributeLocation = gl.getAttribLocation(program, "vertColor");
 
   // Tell the attribute how to get data out of positionBuffer (ARRAY_BUFFER)
   var size = 2; // 2 components per iteration
   var type = gl.FLOAT; // the data is 32bit floats
   var normalize = false; // don't normalize the data
-  var stride = 0; // 0 = move forward size * sizeof(type) each iteration to get the next position
+  var stride = 5 * Float32Array.BYTES_PER_ELEMENT; // 0 = move forward size * sizeof(type) each iteration to get the next position
   var offset = 0; // start at the beginning of the buffer
   gl.vertexAttribPointer(
     positionAttributeLocation,
@@ -88,11 +94,26 @@ function main() {
     type,
     normalize,
     stride,
-    offset,
+    offset
+  );
+
+  var csize = 3;
+  var ctype = gl.FLOAT;
+  var cnormalize = false;
+  var cstride = 5 * Float32Array.BYTES_PER_ELEMENT;
+  var coffset = 2 * Float32Array.BYTES_PER_ELEMENT;
+  gl.vertexAttribPointer(
+    colorAttributeLocation,
+    csize,
+    ctype,
+    cnormalize,
+    cstride,
+    coffset
   );
 
   // Enables the attribute for use
   gl.enableVertexAttribArray(positionAttributeLocation);
+  gl.enableVertexAttribArray(colorAttributeLocation);
 
   //
   // Main Render Loop
@@ -102,7 +123,7 @@ function main() {
 
   var primitiveType = gl.TRIANGLES;
   var offset = 0; // How many of the vertex attributes to skip
-  var count = 3; // How many of the vertex attributes to use
+  var count = 6; // How many of the vertex attributes to use
   gl.drawArrays(primitiveType, offset, count);
 }
 
